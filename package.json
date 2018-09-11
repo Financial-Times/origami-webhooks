@@ -5,7 +5,8 @@
   "main": "env.js",
   "scripts": {
     "deploy": "serverless deploy",
-    "logs": "serverless logs -f webhooks -t"
+    "logs": "serverless logs -f webhooks -t",
+		"test": "mocha test/**/*.test.js --recursive"
   },
   "author": "",
   "license": "MIT",
