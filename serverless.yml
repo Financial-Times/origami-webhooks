@@ -1,21 +1,6 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: origami-webhooks
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+frameworkVersion: ">=1.26.1"
 
 provider:
   name: aws
@@ -32,6 +17,7 @@ provider:
     AWS_ACCESS_ID: ${self:custom.secret.AWS_ACCESS_KEY_ID}
     AWS_SECRET: ${self:custom.secret.AWS_SECRET_ACCESS_KEY}
     GITHUB_WEBHOOK_SECRET: ${self:custom.secret.GITHUB_WEBHOOK_SECRET}
+    SLACK_WEBHOOK_URL: ${self:custom.secret.SLACK_WEBHOOK_URL}
 
 custom:
   defaultStage: dev
@@ -75,8 +61,8 @@ plugins:
 #    - exclude-me-dir/**
 
 functions:
-  githubWebhookListener:
-    handler: handler.githubWebhookListener
+  webhooks:
+    handler: handler.webhooks
     events:
       - http:
           path: webhooks
