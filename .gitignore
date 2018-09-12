@@ -1,4 +1,8 @@
-node_modules/
-.git
 .env
-.serverless
+
+coverage/
+node_modules/
+
+.git/
+.nyc_output/
+.serverless/

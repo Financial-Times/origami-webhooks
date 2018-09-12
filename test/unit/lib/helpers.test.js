@@ -1,24 +1,25 @@
+/* eslint-env mocha */
 'use strict';
 
 const proclaim = require('proclaim');
-const helpers = require('../../lib/helpers.js');
+const helpers = require('../../../lib/helpers.js');
 
-describe('responseObject', () => {
-	const responseObject = helpers.responseObject;
-	let mockBody;
+describe('httpError', () => {
+	const httpError = helpers.httpError;
+	let message;
 	let mockObject;
 
 	it('is a helper function', () => {
-		proclaim.isFunction(responseObject);
+		proclaim.isFunction(httpError);
 	});
 
-	it('returns an object with provided statusCode and stringified body and default headers', () => {
-		mockBody = { message: 'Everything works'};
-		mockObject = responseObject(mockBody, 200);
+	it('returns an error object with provided statusCode and stringified body and default headers', () => {
+		message = 'Something went wrong';
+		mockObject = httpError(message, 500);
 
-		proclaim.equal(mockObject.statusCode, 200);
+		proclaim.equal(mockObject.statusCode, 500);
 		proclaim.equal(JSON.stringify(mockObject.headers), JSON.stringify({ 'Content-Type': 'text/plain' }));
-		proclaim.equal(mockObject.body, JSON.stringify(mockBody));
+		proclaim.equal(mockObject.message, message);
 	});
 
 });

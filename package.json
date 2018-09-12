@@ -8,16 +8,20 @@
     "logs": "serverless logs -f webhooks -t",
     "lint": "eslint .",
     "test": "npm run test-unit",
-    "test-unit": "nyc --reporter=lcov --reporter=text mocha test/unit/**/*.test.js --recursive"
+    "test-unit": "nyc --reporter=lcov --reporter=text-lcov mocha test/unit/**/*.test.js --recursive"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "dotenv-safe": "^6.0.0",
+    "eslint": "^5.5.0",
     "node-fetch": "^2.2.0"
   },
   "devDependencies": {
-    "eslint": "^5.5.0",
-    "serverless-offline": "^3.25.11"
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "proclaim": "^3.5.1",
+    "serverless-offline": "^3.25.11",
+    "sinon": "^6.2.0"
   }
 }

@@ -2,17 +2,21 @@
 const fetch = require('node-fetch');
 
 const env = require('./env.js')();
-const errorObject = require('./lib/helpers').responseObject;
+const httpError = require('./lib/helpers').httpError;
 const verifyGithubWebhook = require('./lib/verify-github-webhook.js');
 
-module.exports.webhooks = (event) => {
-	verifyGithubWebhook(event);
+module.exports.webhooks = async (event) => {
+	try {
+		verifyGithubWebhook(event);
+	} catch (err) {
+		return err;
+	}
 
 	let payload;
 	try {
 		payload = JSON.parse(event.body);
 	} catch (err) {
-		return errorObject(err, 400);
+		throw httpError(err, 400);
 	}
 
 	/* eslint-disable quotes */
@@ -33,13 +37,13 @@ module.exports.webhooks = (event) => {
 		});
 	};
 
-	return sendPayload(content)
+	return await sendPayload(content)
 		.then(res => {
 			return {
 				statusCode: res.statusCode
 			};
 		})
 		.catch(err => {
-			return errorObject(err, 500);
+			throw httpError(err, 500);
 		});
 };
