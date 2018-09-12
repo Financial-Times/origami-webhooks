@@ -73,7 +73,7 @@ functions:
           method: post
           cors: true
   save:
-    handler: handler.save
+    handler: functions/save-to-s3.handler
     environment:
       BUCKET: ${self:resources.Resources.S3IssuesBucket.Properties.BucketName}
     events:
