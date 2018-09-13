@@ -13,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@financial-times/origami-repo-data-client": "^1.4.1",
     "aws-sdk": "^2.313.0",
     "dotenv-safe": "^6.0.0",
     "eslint": "^5.5.0",

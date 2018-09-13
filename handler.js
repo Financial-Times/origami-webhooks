@@ -6,17 +6,12 @@ const httpError = require('./lib/helpers').httpError;
 const verifyGithubWebhook = require('./lib/verify-github-webhook.js');
 
 module.exports.webhooks = async (event) => {
+	let payload;
+
 	try {
-		verifyGithubWebhook(event);
+		payload = verifyGithubWebhook(event);
 	} catch (err) {
 		return err;
-	}
-
-	let payload;
-	try {
-		payload = JSON.parse(event.body);
-	} catch (err) {
-		throw httpError(err, 400);
 	}
 
 	/* eslint-disable quotes */
