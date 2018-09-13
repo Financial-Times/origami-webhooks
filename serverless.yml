@@ -63,7 +63,20 @@ resources:
               Action: s3:GetObject
               Resource:
               - arn:aws:s3:::${self:resources.Resources.S3IssuesBucket.Properties.BucketName}/*
-
+    # CronJob:
+    #   Type: 'AWS::Events::Rule'
+    #   Properties:
+    #     PolicyDocument:
+    #       Id: CronPolicy
+    #       Statement:
+    #         -Sid: AllowOnlyApplicationToRunEvent
+    #         Effect: Allow
+    #         Principal:
+    #           AWS:
+    #             - ${self:provider.role}
+    #         Action: Event:PutRule
+            # Resource:
+            #   - arn:aws:events:::${self.resources.Resources.CronJob.Proper}
 functions:
   webhooks:
     handler: handler.webhooks
@@ -81,35 +94,7 @@ functions:
           path: save
           method: post
           cors: true
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
+  cron:
+    handler: functions/cron.handler
+    events:
+      - schedule: rate(1 minute)
