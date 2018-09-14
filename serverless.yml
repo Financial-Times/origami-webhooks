@@ -84,4 +84,5 @@ functions:
   cron:
     handler: functions/cron.handler
     events:
-      - schedule: rate(1 minute)
+      # - schedule: rate(1 minute)
+      - schedule: cron(30 9 * * MON-FRI *)

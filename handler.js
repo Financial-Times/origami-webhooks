@@ -13,10 +13,15 @@ module.exports.webhooks = async (event) => {
 		let issues = await Promise.all(keys.map(s3.getS3Object));
 		issues = Array.prototype.concat(...issues);
 
-		const opened = issues.filter(issue => issue.action === 'opened' || issue.action === 'reopened');
-		const closed = issues.filter(issue => issue.action === 'closed');
-		const edited = issues.filter(issue => issue.action === 'edited');
 
+		const hasIssues = action => issues.filter(issue => issue.action === action);
+
+		const categories = {
+			closed: hasIssues('closed'),
+			edited: hasIssues('edited'),
+			opened: hasIssues('opened'),
+			reopened: hasIssues('reopened')
+		};
 
 		const issueText = (list, type) => {
 			if (list.length >= 1) {
@@ -28,7 +33,12 @@ module.exports.webhooks = async (event) => {
 
 			return '';
 		};
-		const text = ':bell: *Yesterday\'s issue summary*\n' + issueText(opened, 'Opened') + issueText(closed, 'Closed') + issueText(edited, 'Edited');
+
+		const text = ':bell: *Yesterday\'s issue summary*\n'
+								+ issueText(categories.closed, 'Closed')
+								+ issueText(categories.edited, 'Edited');
+								+ issueText(categories.opened, 'Opened')
+								+ issueText(categories.reopened, 'Reopened');
 
 		const payload = {
 			text: text,
@@ -47,6 +57,7 @@ module.exports.webhooks = async (event) => {
 
 	return await sendPayload(payload)
 		.then(res => {
+			s3.deleteS3Objects();
 			return {
 				statusCode: res.statusCode
 			};

@@ -6,7 +6,7 @@ const verifyGithubWebhook = require('../lib/verify-github-webhook.js');
 const listRepos = require('../lib/list-origami-repos');
 
 
-exports.handler = async (event) => {
+module.exports.handler = async (event) => {
 	let payload;
 
 	try {
