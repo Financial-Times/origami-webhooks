@@ -63,20 +63,7 @@ resources:
               Action: s3:GetObject
               Resource:
               - arn:aws:s3:::${self:resources.Resources.S3IssuesBucket.Properties.BucketName}/*
-    # CronJob:
-    #   Type: 'AWS::Events::Rule'
-    #   Properties:
-    #     PolicyDocument:
-    #       Id: CronPolicy
-    #       Statement:
-    #         -Sid: AllowOnlyApplicationToRunEvent
-    #         Effect: Allow
-    #         Principal:
-    #           AWS:
-    #             - ${self:provider.role}
-    #         Action: Event:PutRule
-            # Resource:
-            #   - arn:aws:events:::${self.resources.Resources.CronJob.Proper}
+
 functions:
   webhooks:
     handler: handler.webhooks

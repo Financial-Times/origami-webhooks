@@ -21,9 +21,7 @@ exports.handler = async (event) => {
 	const repository = payload.repository.name;
 
 	if (whitelist.includes(repository)) {
-		const body = {
-			issues: []
-		};
+		let body;
 
 		const issue = {
 			action: payload.action,
@@ -34,10 +32,10 @@ exports.handler = async (event) => {
 
 		const object = await s3.getS3Object(repository);
 		if (object) {
-			body.issues = object.issues;
-			body.issues.push(issue);
+			body = object;
+			body.push(issue);
 		} else {
-			body.issues = [issue];
+			body = [issue];
 		}
 
 		return await s3.putS3Object(body, repository);
