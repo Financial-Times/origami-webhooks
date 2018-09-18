@@ -15,8 +15,6 @@ module.exports.handler = async (event) => {
 		return err;
 	}
 
-	// payload = JSON.parse(event.body);
-
 	const whitelist = await listRepos();
 	const repository = payload.repository.name;
 
@@ -38,7 +36,7 @@ module.exports.handler = async (event) => {
 			body = [issue];
 		}
 
-		return await s3.putS3Object(body, repository);
+		return s3.putS3Object(body, repository);
 	}
 
 	return Promise.resolve(`${repository} was not found in the Origami Registry`);

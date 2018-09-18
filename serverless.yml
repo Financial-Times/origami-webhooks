@@ -20,6 +20,9 @@ provider:
     AWS_SECRET: ${self:custom.secret.AWS_SECRET_ACCESS_KEY}
     GITHUB_WEBHOOK_SECRET: ${self:custom.secret.GITHUB_WEBHOOK_SECRET}
     SLACK_WEBHOOK_URL: ${self:custom.secret.SLACK_WEBHOOK_URL}
+    BUCKET: ${self:custom.secret.BUCKET}
+    REPO_DATA_API_KEY: ${self:custom.secret.REPO_DATA_API_KEY}
+    REPO_DATA_API_SECRET: ${self:custom.secret.REPO_DATA_API_SECRET}
 
 custom:
   defaultStage: dev
@@ -81,7 +84,7 @@ functions:
           path: save
           method: post
           cors: true
-  cron:
-    handler: functions/cron.handler
+  report:
+    handler: functions/report-to-slack.handler
     events:
       - schedule: cron(00 10 ? * MON-FRI *) # 10h00 UTC every weekday
