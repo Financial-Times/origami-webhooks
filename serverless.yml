@@ -84,5 +84,4 @@ functions:
   cron:
     handler: functions/cron.handler
     events:
-      # - schedule: rate(1 minute)
-      - schedule: cron(30 9 * * MON-FRI *)
+      - schedule: cron(00 10 ? * MON-FRI *) # 10h00 UTC every weekday
