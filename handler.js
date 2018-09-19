@@ -5,14 +5,20 @@ const env = require('./env.js')();
 const generateSlackPayload = require('./lib/generate-slack-payload');
 
 const httpError = require('./lib/helpers').httpError;
-const s3 = require('./lib/s3-functions');
+const s3 = require('./lib/s3.js');
 
 module.exports.webhooks = async () => {
-	const objects = await s3.listS3Objects();
+	const s3Instance = s3.createInstance(env.AWS_ACCESS_ID, env.AWS_SECRET_ACCESS_KEY);
+	const location = {
+		s3: s3Instance,
+		bucket: env.BUCKET
+	};
 
-	if (objects.length >= 1) {
+	const objects = await s3.listObjectsFrom(location);
+
+	if (objects && objects.length >= 1) {
 		const payload = {
-			text: await generateSlackPayload(objects),
+			text: await generateSlackPayload(location, objects),
 			mrkdwn: true
 		};
 
@@ -26,15 +32,13 @@ module.exports.webhooks = async () => {
 			});
 		};
 
-	return await sendPayload(payload)
-		.then(() => {})
-		.catch(err => {
-			throw httpError(err, 500);
-		});
+		return await sendPayload(payload)
+			.then(() => s3.deleteObjectsFrom(location, objects))
+			.catch(err => httpError(err));
 	} else {
 		return {
 			statusCode: 200,
-			body: 'No issues to report'
+			body: '\n> No issues have been raised across Origami repositories, hooray!\n'
 		};
 	}
 };

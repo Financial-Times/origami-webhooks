@@ -6,7 +6,7 @@ const helpers = require('../../../lib/helpers.js');
 
 describe('httpError', () => {
 	const httpError = helpers.httpError;
-	let message;
+	let error;
 	let mockObject;
 
 	it('is a helper function', () => {
@@ -14,12 +14,15 @@ describe('httpError', () => {
 	});
 
 	it('returns an error object with provided statusCode and stringified body and default headers', () => {
-		message = 'Something went wrong';
-		mockObject = httpError(message, 500);
+		error = {
+			message: 'Something went wrong',
+			statusCode: 500
+		};
+		mockObject = httpError(error);
 
 		proclaim.equal(mockObject.statusCode, 500);
 		proclaim.equal(JSON.stringify(mockObject.headers), JSON.stringify({ 'Content-Type': 'text/plain' }));
-		proclaim.equal(mockObject.message, message);
+		proclaim.equal(mockObject.message, error);
 	});
 
 });

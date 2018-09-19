@@ -87,4 +87,4 @@ functions:
   report:
     handler: functions/report-to-slack.handler
     events:
-      - schedule: cron(00 10 ? * MON-FRI *) # 10h00 UTC every weekday
+      - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
