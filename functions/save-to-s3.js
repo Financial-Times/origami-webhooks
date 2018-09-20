@@ -1,7 +1,6 @@
 'use strict';
 const env = require('../env.js')();
-const httpError = require('../lib/helpers').httpError;
-const listRepos = require('../lib/list-origami-repos');
+// const listRepos = require('../lib/list-origami-repos');
 const s3 = require('../lib/s3.js');
 // const verifyGithubWebhook = require('../lib/verify-github-webhook.js');
 
@@ -15,12 +14,13 @@ module.exports.handler = async (event) => {
 	// }
 
 	const payload = JSON.parse(event.body);
-
-	const whitelist = await listRepos();
-	// const whitelist = ['lool'];
+	//
+	// const whitelist = await listRepos();
+	const whitelist = ['cURL-test'];
 	const repository = payload.repository.name;
 
 	if (whitelist.includes(repository)) {
+
 		const s3Instance = s3.createInstance(env.AWS_ACCESS_ID, env.AWS_SECRET_ACCESS_KEY);
 		const location = {
 			s3: s3Instance,
@@ -38,7 +38,7 @@ module.exports.handler = async (event) => {
 
 		let body;
 
-		if (object) {
+		if (object && object.length >= 1) {
 			body = object;
 			body.push(issue);
 		} else {
