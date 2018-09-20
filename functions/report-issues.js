@@ -1,9 +1,9 @@
 'use strict';
 
-const env = require('./env.js')();
-const httpError = require('./lib/helpers').httpError;
-const slack = require('./lib/slack');
-const s3 = require('./lib/s3');
+const env = require('../env.js')();
+const httpError = require('../lib/helpers').httpError;
+const slack = require('../lib/slack');
+const s3 = require('../lib/s3');
 
 
 module.exports.webhooks = async () => {

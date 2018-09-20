@@ -76,7 +76,7 @@ functions:
           method: post
           cors: true
   save:
-    handler: functions/save-to-s3.handler
+    handler: functions/save-payload.handler
     environment:
       BUCKET: ${self:resources.Resources.S3IssuesBucket.Properties.BucketName}
     events:
@@ -85,6 +85,6 @@ functions:
           method: post
           cors: true
   report:
-    handler: functions/report-to-slack.handler
+    handler: functions/report-issues.handler
     events:
       - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
