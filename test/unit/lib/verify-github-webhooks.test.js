@@ -21,10 +21,8 @@ describe('Incoming GitHub webhook verification', () => {
 	describe('throws errors for invalid header', () => {
 
 		it('X-Hub-Signature: non-existent', () => {
-			error = {
-				message: 'No X-Hub-Signature found on request',
-				statusCode: 401
-			};
+			error = new Error({ message: 'No X-Hub-Signature found on request' });
+
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': null,
@@ -33,11 +31,12 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error.message);
 		});
 
 		it('X-Hub-Signature: incorrect', () => {
-			error = 'X-Hub-Signature is incorrect. The GitHub webhook token doesn\'t match';
+			error = new Error({ message: 'X-Hub-Signature is incorrect. The GitHub webhook token doesn\'t match' });
+
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'different-secret',
@@ -46,11 +45,13 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
+
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error.message);
 		});
 
 		it('X-GitHub-Event', () => {
-			error = 'No X-Github-Event found on request';
+			error = new Error({ message: 'No X-Github-Event found on request' });
+
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'someHash',
@@ -59,11 +60,12 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error.message);
 		});
 
 		it('X-GitHub-Delivery', () => {
-			error = 'No X-Github-Delivery found on request';
+			error = new Error({ message: 'No X-Github-Delivery found on request' });
+
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'someHash',
@@ -72,7 +74,7 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error.message);
 		});
 	});
 });
