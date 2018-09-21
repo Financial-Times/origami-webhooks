@@ -11,7 +11,7 @@ sinon.assert.expose(proclaim, {
 });
 
 describe('Incoming GitHub webhook verification', () => {
-	let errorMessage;
+	let error;
 	let mockEvent;
 
 	it(('exports a function'), () => {
@@ -21,7 +21,10 @@ describe('Incoming GitHub webhook verification', () => {
 	describe('throws errors for invalid header', () => {
 
 		it('X-Hub-Signature: non-existent', () => {
-			errorMessage = 'No X-Hub-Signature found on request';
+			error = {
+				message: 'No X-Hub-Signature found on request',
+				statusCode: 401
+			};
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': null,
@@ -30,11 +33,11 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), errorMessage);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
 		});
 
 		it('X-Hub-Signature: incorrect', () => {
-			errorMessage = 'X-Hub-Signature is incorrect. The GitHub webhook token doesn\'t match';
+			error = 'X-Hub-Signature is incorrect. The GitHub webhook token doesn\'t match';
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'different-secret',
@@ -43,11 +46,11 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), errorMessage);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
 		});
 
 		it('X-GitHub-Event', () => {
-			errorMessage = 'No X-Github-Event found on request';
+			error = 'No X-Github-Event found on request';
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'someHash',
@@ -56,11 +59,11 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), errorMessage);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
 		});
 
 		it('X-GitHub-Delivery', () => {
-			errorMessage = 'No X-Github-Delivery found on request';
+			error = 'No X-Github-Delivery found on request';
 			mockEvent = {
 				headers: {
 					'X-Hub-Signature': 'someHash',
@@ -69,7 +72,7 @@ describe('Incoming GitHub webhook verification', () => {
 				},
 				body: 'text'
 			};
-			proclaim.throws(() => verifyGithubWebhook(mockEvent), errorMessage);
+			proclaim.throws(() => verifyGithubWebhook(mockEvent), error);
 		});
 	});
 });

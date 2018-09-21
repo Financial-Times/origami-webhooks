@@ -6,7 +6,7 @@ const slack = require('../lib/slack');
 const s3 = require('../lib/s3');
 
 
-module.exports.webhooks = async () => {
+module.exports.handler = async () => {
 	const s3Instance = s3.createInstance(env.AWS_ACCESS_ID, env.AWS_SECRET_ACCESS_KEY);
 	const location = {
 		s3: s3Instance,

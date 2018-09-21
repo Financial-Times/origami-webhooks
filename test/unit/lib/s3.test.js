@@ -86,7 +86,7 @@ describe('create-s3-instance', function () {
 				Body: '{"text":"some content"}'
 			});
 			proclaim.calledOnce(s3Instance.putObject.promise);
-			proclaim.deepStrictEqual(result, { body: '\u001b[32m✓ test-repo uploaded to test-bucket' });
+			proclaim.deepStrictEqual(result, { body: '✓ test-repo uploaded to test-bucket' });
 		});
 	});
 
@@ -170,7 +170,7 @@ describe('create-s3-instance', function () {
 				}
 			});
 			proclaim.calledOnce(s3Instance.deleteObjects.promise);
-			proclaim.deepStrictEqual(result, '\u001b[32m✓ test-bucket has been emptied.');
+			proclaim.deepStrictEqual(result, '✓ test-bucket has been emptied.');
 		});
 	});
 });
