@@ -26,7 +26,7 @@ module.exports.handler = async () => {
 	} else {
 		return {
 			statusCode: 200,
-			body: '\n> No issues have been raised across Origami repositories, hooray!\n'
+			body: 'No issues have been raised across Origami repositories, hooray!'
 		};
 	}
 };
