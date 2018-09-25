@@ -31,7 +31,7 @@ describe('list', () => {
 			}
 		];
 
-		const mockList = '*Opened*\n_test_:\n— <#| issue 1>\n— <#| issue 2>\n\n';
+		const mockList = '*Opened*\n\n_test_:\n— <#| issue 1>\n— <#| issue 2>\n\n';
 
 		const openedIssues = list('opened', mockIssues);
 		proclaim.deepStrictEqual(openedIssues, mockList);
