@@ -68,13 +68,6 @@ resources:
               - arn:aws:s3:::${self:resources.Resources.S3IssuesBucket.Properties.BucketName}/*
 
 functions:
-  webhooks:
-    handler: handler.webhooks
-    events:
-      - http:
-          path: webhooks
-          method: post
-          cors: true
   save:
     handler: functions/save-payload.handler
     environment:
