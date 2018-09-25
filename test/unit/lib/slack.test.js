@@ -29,7 +29,7 @@ describe('slack', () => {
 
 	const mockPayload = {
 		mrkdwn: true,
-		text: '*Issue activity since Thu morning*\n*Closed*\n\n_test_:\n— <#| issue 3>\n\n*Opened*\n\n_test_:\n— <#| issue 1>\n— <#| issue 2>\n\n'
+		text: '*Issue activity since Friday morning*\n*Closed*\n\n_test_:\n— <#| issue 3>\n\n*Opened*\n\n_test_:\n— <#| issue 1>\n— <#| issue 2>\n\n'
 	};
 
 	afterEach(() => {
@@ -42,7 +42,7 @@ describe('slack', () => {
 		});
 
 		it('generates a payload', () => {
-			const payload = slack.generatePayload(mockObjects, new Date('Fri Sep 21 2018'));
+			const payload = slack.generatePayload(mockObjects, new Date('Mon Sep 24 2018'));
 			proclaim.deepStrictEqual(payload, mockPayload);
 		});
 	});
