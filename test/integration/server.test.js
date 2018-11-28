@@ -7,7 +7,7 @@ const port = require('./helpers').port;
 let slsOfflineProcess;
 
 before(function (done) {
-  this.timeout(30000);
+  this.timeout(10000);
 
   startSlsOffline(function (err) {
     if (err) {
@@ -23,7 +23,7 @@ after(function () {
 
 function startSlsOffline (done) {
   slsOfflineProcess = spawn('sls', ['offline', 'start', '--port', port]);
-  console.log(`Serverless: Offline started with PID : ${slsOfflineProcess.pid}`);
+  console.log(`Serverless offline started with PID : ${slsOfflineProcess.pid}`);
 
   slsOfflineProcess.stdout.on('data', (data) => {
     if (data.includes('Offline listening on')) {
@@ -41,5 +41,5 @@ function startSlsOffline (done) {
 
 function stopSlsOffline() {
   slsOfflineProcess.kill();
-  console.log('Serverless Offline stopped');
+  console.log('Serverless offline stopped');
 }

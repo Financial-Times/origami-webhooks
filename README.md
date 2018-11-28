@@ -22,7 +22,7 @@ Origami webhooks currently has two AWS Lambda functions that live at the followi
 
 ## Requirements
 
-In order to run this Origami Webhooks, you'll need to have [Node.js](https://nodejs.org/en/) 8.x, [npm](https://www.npmjs.com/) installed globally.
+In order to run this service, you'll need to have [Node.js](https://nodejs.org/en/) 8.x, [npm](https://www.npmjs.com/) installed globally.
 
 You will also need to install `serverless`:
 ```
