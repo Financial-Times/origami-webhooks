@@ -7,7 +7,7 @@
     "deploy": "serverless deploy",
     "logs": "serverless logs -f webhooks -t",
     "lint": "eslint .",
-    "test": "npm run test-unit test-integration",
+    "test": "npm run test-unit && nom run test-integration",
     "test-unit": "nyc --reporter=lcov --reporter=text-lcov mocha test/unit/**/*.test.js --recursive",
     "test-integration": "nyc --reporter=lcov --reporter=text-lcov mocha test/integration/**/*.test.js --recursive"
   },
