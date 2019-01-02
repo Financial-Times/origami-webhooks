@@ -40,7 +40,7 @@ function startSlsOffline (done) {
 
 
 function stopSlsOffline() {
-  slsOfflineProcess.kill();
+  slsOfflineProcess.disconnect();
   console.log('Serverless offline stopped');
 }
 setTimeout(function () {
