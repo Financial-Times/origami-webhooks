@@ -19,7 +19,8 @@
     "aws-sdk": "^2.313.0",
     "dotenv-safe": "^6.0.0",
     "eslint": "^5.5.0",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "why-is-node-running": "^2.0.3"
   },
   "devDependencies": {
     "execa": "^1.0.0",
