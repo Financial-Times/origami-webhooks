@@ -19,8 +19,7 @@
     "aws-sdk": "^2.313.0",
     "dotenv-safe": "^6.0.0",
     "eslint": "^5.5.0",
-    "node-fetch": "^2.2.0",
-    "why-is-node-running": "^2.0.3"
+    "node-fetch": "^2.2.0"
   },
   "devDependencies": {
     "execa": "^1.0.0",
@@ -34,6 +33,7 @@
     "serverless-offline": "^3.25.11",
     "serverless-secrets-plugin": "^0.1.0",
     "sinon": "^6.2.0",
-    "supertest": "^3.3.0"
+    "supertest": "^3.3.0",
+    "why-is-node-running": "^2.0.3"
   }
 }

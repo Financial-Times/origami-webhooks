@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 'use strict';
-const log = require('why-is-node-running')
+const log = require('why-is-node-running');
 const {spawn} = require('child_process');
 const port = require('./helpers').port;
 
@@ -44,5 +44,5 @@ function stopSlsOffline() {
   console.log('Serverless offline stopped');
 }
 setTimeout(function () {
-  log() // logs out active handles that are keeping node running
-}, 100)
+  log(); // logs out active handles that are keeping node running
+}, 100);
