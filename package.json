@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "test": "npm run test-unit && npm run test-integration",
     "test-unit": "nyc --reporter=lcov --reporter=text-lcov mocha test/unit/**/*.test.js --recursive",
-    "test-integration": "nyc --reporter=lcov --reporter=text-lcov mocha test/integration/**/*.test.js --recursive"
+    "test-integration": "nyc --reporter=lcov --reporter=text-lcov mocha test/integration/**/*.test.js --recursive",
+    "start": "sls offline start"
   },
   "author": "",
   "license": "MIT",
@@ -28,6 +29,7 @@
     "nyc": "^13.0.1",
     "process": "^0.11.10",
     "proclaim": "^3.5.1",
+    "serverless": "^1.35.1",
     "serverless-offline": "^3.25.11",
     "serverless-secrets-plugin": "^0.1.0",
     "sinon": "^6.2.0",

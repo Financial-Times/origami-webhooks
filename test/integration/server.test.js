@@ -22,7 +22,7 @@ after(function () {
 });
 
 function startSlsOffline (done) {
-  slsOfflineProcess = spawn('sls', ['offline', 'start', '--port', port]);
+  slsOfflineProcess = spawn('npm', ['start', '--port ' + port]);
   console.log(`Serverless offline started with PID : ${slsOfflineProcess.pid}`);
 
   slsOfflineProcess.stdout.on('data', (data) => {
