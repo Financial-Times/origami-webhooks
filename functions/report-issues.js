@@ -20,7 +20,7 @@ module.exports.handler = async () => {
 		const issues = await Promise.all(keys.map(issue => s3.getObjectFrom(location, issue)));
 		const payload = await slack.generatePayload(issues);
 		return await slack.sendPayload(env.SLACK_WEBHOOK_URL, payload)
-			.then(() => s3.deleteObjectsFrom(location, objects))
+			// .then(() => s3.deleteObjectsFrom(location, objects))
 			.then((res) => console.log(res))
 			.catch(err => httpError(err));
 	} else {

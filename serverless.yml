@@ -80,4 +80,7 @@ functions:
   report:
     handler: functions/report-issues.handler
     events:
-      - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
+      - http:
+          path: report
+          method: get
+      # - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
