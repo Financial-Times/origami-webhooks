@@ -1,9 +1,10 @@
 'use strict';
 
-const listRepos = require('../lib/list-origami-repos');
-const upload = require('../lib/upload-to-bucket');
-const verifyGithubWebhook = require('../lib/verify-github-webhook.js');
 const httpError = require('../lib/helpers').httpError;
+const listOrigamiRepos = require('../lib/list-origami-repos');
+const uploadToS3 = require('../lib/upload-to-s3');
+const	notifyUXD = require('../lib/notify-uxd');
+const verifyGithubWebhook = require('../lib/verify-github-webhook.js');
 
 
 module.exports.handler = async (event) => {
@@ -15,12 +16,17 @@ module.exports.handler = async (event) => {
 		return err;
 	}
 
-	const whitelist = await listRepos();
+	const whitelist = await listOrigamiRepos();
 	const repository = payload.repository.name;
 
 	if (whitelist.includes(repository)) {
-		return upload(payload, repository);
+		if (payload.action === 'labeled') {
+			return notifyUXD(payload);
+		} else {
+			return uploadToS3(payload, repository);
+		}
 	}
+
 
 	const error = {
 		message: `${repository} was not found in the Origami Registry`,

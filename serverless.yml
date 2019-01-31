@@ -19,7 +19,9 @@ provider:
     AWS_ACCESS_ID: ${self:custom.secret.AWS_ACCESS_KEY_ID}
     AWS_SECRET: ${self:custom.secret.AWS_SECRET_ACCESS_KEY}
     GITHUB_WEBHOOK_SECRET: ${self:custom.secret.GITHUB_WEBHOOK_SECRET}
-    SLACK_WEBHOOK_URL: ${self:custom.secret.SLACK_WEBHOOK_URL}
+    SLACK_WEBHOOK_URL_ORIGAMI_INTERNAL: ${self:custom.secret.SLACK_WEBHOOK_URL_ORIGAMI_INTERNAL}
+    SLACK_WEBHOOK_URL_UXD: ${self:custom.secret.SLACK_WEBHOOK_URL_UXD}
+    SLACK_WEBHOOK_URL_TEST: ${self:custom.secret.SLACK_WEBHOOK_URL_TEST}
     BUCKET: ${self:custom.secret.BUCKET}
     REPO_DATA_API_KEY: ${self:custom.secret.REPO_DATA_API_KEY}
     REPO_DATA_API_SECRET: ${self:custom.secret.REPO_DATA_API_SECRET}
@@ -83,4 +85,4 @@ functions:
       - http:
           path: report
           method: get
-      # - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
+      - schedule: cron(30 8 ? * MON-FRI *) # 8h30 UTC every weekday
