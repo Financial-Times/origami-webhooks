@@ -2,7 +2,6 @@
 'use strict';
 
 const request = require('supertest');
-
 const env = require('../../env.js')();
 const signRequestBody = require('../../lib/helpers').sha1;
 
@@ -10,7 +9,7 @@ const opts = {
 	url: 'http://localhost:3000/',
 	body: {
 		repository: {
-			name: 'bob'
+			name: 'not-o-repo'
 		}
 	}
 };
@@ -72,7 +71,30 @@ describe('POST /save', function () {
 		});
 	});
 
-	context('verifies repository ownership', () => {
+	context('checks for repository in Origami registry', () => {
+		it('warns if repository does not belong to Origami', () => {
+			const token = signRequestBody(env.GITHUB_WEBHOOK_SECRET, JSON.stringify(opts.body));
 
+			return request(opts.url)
+			.post('save')
+			.send(opts.body)
+			.set('X-GitHub-Event', 'issues')
+			.set('X-GitHub-Delivery', '11a1a111-a1a1-11a1-11a1-1111aa111aa1')
+			.set('X-Hub-Signature', token)
+			.expect(404, 'not-o-repo was not found in the Origami Registry');
+		});
+
+		it('is successful if repository belongs to Origami', () => {
+			opts.body.repository.name = 'o-test-component';
+			const token = signRequestBody(env.GITHUB_WEBHOOK_SECRET, JSON.stringify(opts.body));
+
+			return request(opts.url)
+			.post('save')
+			.send(opts.body)
+			.set('X-GitHub-Event', 'issues')
+			.set('X-GitHub-Delivery', '11a1a111-a1a1-11a1-11a1-1111aa111aa1')
+			.set('X-Hub-Signature', token)
+			.expect(200);
+		});
 	});
 });
