@@ -36,13 +36,13 @@ describe('slack', () => {
 		fetchMock.restore();
 	});
 
-	describe('.generatePayload', () => {
+	describe('.generateReport', () => {
 		it('exports a function', () => {
-			proclaim.isFunction(slack.generatePayload);
+			proclaim.isFunction(slack.generateReport);
 		});
 
 		it('generates a payload', () => {
-			const payload = slack.generatePayload(mockObjects, new Date('Mon Sep 24 2018'));
+			const payload = slack.generateReport(mockObjects, new Date('Mon Sep 24 2018'));
 			proclaim.deepStrictEqual(payload, mockPayload);
 		});
 	});
