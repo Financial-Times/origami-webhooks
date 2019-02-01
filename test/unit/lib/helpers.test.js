@@ -16,7 +16,7 @@ describe('httpError', () => {
 	it('returns an error object with provided statusCode and stringified body and default headers', () => {
 		error = {
 			message: 'Something went wrong',
-			status: 500
+			statusCode: 500
 		};
 		mockObject = httpError(error);
 

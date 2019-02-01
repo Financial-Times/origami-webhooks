@@ -30,7 +30,7 @@ module.exports.handler = async (event) => {
 
 	const error = {
 		message: `${repository} was not found in the Origami Registry`,
-		status: 404
+		statusCode: 404
 	};
 
 	return httpError(error);

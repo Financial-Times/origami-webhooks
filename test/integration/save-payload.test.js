@@ -2,6 +2,7 @@
 'use strict';
 
 const request = require('supertest');
+
 const env = require('../../env.js')();
 const signRequestBody = require('../../lib/helpers').sha1;
 
@@ -9,7 +10,7 @@ const opts = {
 	url: 'http://localhost:3000/',
 	body: {
 		repository: {
-			name: 'not-o-repo'
+			name: 'o-test-component' // exists in origami-repo-data
 		}
 	}
 };
@@ -37,7 +38,7 @@ describe('POST /save', function () {
 				.send(opts.body)
 				.set('X-GitHub-Event', 'issues')
 				.set('X-GitHub-Delivery', '11a1a111-a1a1-11a1-11a1-1111aa111aa1')
-				.set('X-Hub-Signature', 'wrong-token')
+				.set('X-Hub-Signature', 'not-token')
 				.expect(401, 'X-Hub-Signature is incorrect. The GitHub webhook token doesn\'t match');
 			});
 
@@ -73,6 +74,7 @@ describe('POST /save', function () {
 
 	context('checks for repository in Origami registry', () => {
 		it('warns if repository does not belong to Origami', () => {
+			opts.body.repository.name = 'not-o-component';
 			const token = signRequestBody(env.GITHUB_WEBHOOK_SECRET, JSON.stringify(opts.body));
 
 			return request(opts.url)
@@ -81,7 +83,7 @@ describe('POST /save', function () {
 			.set('X-GitHub-Event', 'issues')
 			.set('X-GitHub-Delivery', '11a1a111-a1a1-11a1-11a1-1111aa111aa1')
 			.set('X-Hub-Signature', token)
-			.expect(404, 'not-o-repo was not found in the Origami Registry');
+			.expect(404, 'not-o-component was not found in the Origami Registry');
 		});
 
 		it('is successful if repository belongs to Origami', () => {
