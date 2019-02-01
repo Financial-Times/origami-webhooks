@@ -102,12 +102,12 @@ workflows:
     jobs:
       - install_dependencies
       - lint:
-        requires:
-          - install_dependencies
+          requires:
+            - install_dependencies
       - unit_test:
-        requires:
-          - install_dependencies
-     - deploy_service_staging:
+          requires:
+            - install_dependencies
+      - deploy_service_staging:
           requires:
             - lint
             - unit_test
