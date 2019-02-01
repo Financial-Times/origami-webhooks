@@ -20,14 +20,14 @@ describe('POST /save', function () {
 		context('responds with 200', () => {
 			const token = signRequestBody(env.GITHUB_WEBHOOK_SECRET, JSON.stringify(opts.body));
 
-			it('when all headers are accurate', () => {
+			it('when all headers are accurate', (done) => {
 				return request(opts.url)
 				.post('save')
 				.send(opts.body)
 				.set('X-GitHub-Event', 'issues')
 				.set('X-GitHub-Delivery', '11a1a111-a1a1-11a1-11a1-1111aa111aa1')
 				.set('X-Hub-Signature', token)
-				.expect(200);
+				.expect(200, done());
 			});
 		});
 

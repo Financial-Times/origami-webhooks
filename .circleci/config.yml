@@ -1,11 +1,116 @@
 version: 2
 
-jobs:
-  build:
+references:
+  circle_node_base: &circle_node_base
     docker:
       - image: circleci/node:8
+  restore_npm_local_cache: &restore_npm_local_cache
+    restore_cache:
+      keys:
+        - circle-npm-local-lock-{{ checksum "package-lock.json" }}
+  save_npm_local_cache: &save_npm_local_cache
+    save_cache:
+      key: circle-npm-local-lock-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+  restore_npm_global_cache: &restore_npm_global_cache
+    restore_cache:
+      keys:
+        - circle-npm-global-lock-{{ checksum "package-lock.json" }}
+  save_npm_global_cache: &save_npm_global_cache
+    save_cache:
+      key: circle-npm-global-lock-{{ checksum "package-lock.json" }}
+      paths:
+        - ~/.npm/_cache
+  npm_install: &npm_install
+    run:
+      name: Install dependencies if they have not been restored via the cache
+      command: |
+          if [ ! -d node_modules ]; then
+            npm ci || npm install -g npm && npm ci
+          fi
+  lint: &lint
+    run:
+      command: "npm run lint"
+  unit_test: &unit_test
+    run:
+      command: |
+        if [ -d test/unit ]; then
+          npm run test-unit
+        fi
+  integration_test: &integration_test
+    run:
+      command: |
+        if [ -d test/integration ]; then
+          npm run test-integration
+        fi
+  deploy_service_staging: &deploy_service_staging
+    run:
+      command: |
+        $(npm bin)/serverless deploy --conceal --stage dev --region eu-west-1
+  # deploy_service_production: &deploy_service_production
+  #   run:
+  #     command: |
+  #       AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID_PROD} \
+  #       AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_PROD} \
+  #       AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_PROD} \
+  #       REPO_DATA_API_KEY=${REPO_DATA_API_KEY_PROD} \
+  #       REPO_DATA_API_SECRET=${REPO_DATA_API_SECRET_PROD} \
+  #       SENTRY_DSN=${SENTRY_DSN_PROD} \
+  #       SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN_PROD} \
+  #       SENTRY_PROJECT=${SENTRY_PROJECT_PROD} \
+  #       $(npm bin)/serverless deploy --conceal --stage prod --region eu-west-1
+jobs:
+  install_dependencies:
+    <<: *circle_node_base
     steps:
       - checkout
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *npm_install
+      - *save_npm_global_cache
+      - *save_npm_local_cache
+  lint:
+    <<: *circle_node_base
+    steps:
+      - checkout
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *lint
+  unit_test:
+    <<: *circle_node_base
+    steps:
+      - checkout
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *unit_test
+  deploy_service_staging:
+    <<: *circle_node_base
+    steps:
+      - checkout
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *deploy_service_staging
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - .dev-stack.yml
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - install_dependencies
+      - lint:
+        requires:
+          - install_dependencies
+      - unit_test:
+        requires:
+          - install_dependencies
+     - deploy_service_staging:
+          requires:
+            - lint
+            - unit_test
+      - integration_test:
+          requires:
+            - deploy_service_staging
