@@ -91,10 +91,6 @@ jobs:
       - *restore_npm_global_cache
       - *restore_npm_local_cache
       - *deploy_service_staging
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - .dev-stack.yml
 
 workflows:
   version: 2
