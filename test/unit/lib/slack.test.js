@@ -56,8 +56,8 @@ describe('slack', () => {
 			const url = 'http://www.test.com';
 			fetchMock.post(url, 200);
 
-			await slack.sendPayload(url, mockPayload)
-				.then(res => proclaim.isTrue(res.ok));
+			const result = await slack.sendPayload(url, mockPayload);
+			proclaim.deepStrictEqual(result, { body: '✓ payload sent to Slack'});
 		});
 	});
 });
