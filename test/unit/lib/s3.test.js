@@ -170,7 +170,7 @@ describe('create-s3-instance', function () {
 				}
 			});
 			proclaim.calledOnce(s3Instance.deleteObjects.promise);
-			proclaim.deepStrictEqual(result, '✓ test-bucket has been emptied.');
+			proclaim.deepStrictEqual(result, { body: '✓ test-bucket has been emptied.'});
 		});
 	});
 });
