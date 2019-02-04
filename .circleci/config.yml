@@ -56,6 +56,7 @@ references:
         AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID_PROD} \
         AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_PROD} \
         AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_PROD} \
+        BUCKET=${BUCKET_PROD} \
         REPO_DATA_API_KEY=${REPO_DATA_API_KEY_PROD} \
         REPO_DATA_API_SECRET=${REPO_DATA_API_SECRET_PROD} \
         $(npm bin)/serverless deploy --conceal --stage prod --region eu-west-1
