@@ -15,10 +15,9 @@ Origami also had no centralised webhook handler. Until now.
 ### Functions
 Origami webhooks currently has two AWS Lambda functions that live at the following endpoints:
 
-`/save`: This endpoint currently accepts incoming payloads from an org-wide GitHub webhook, evaluates whether or not the issue belongs to an Origami repository. If it does, the next step depends on the action that is being performed on the issue ('opened', 'edited', 'closed', etc). If an issue is 'labeled' and is specifically labelled with the UXD tag, this endpoint will reroute the issue to Slack (#ft-uxd), and will **not** save it anywhere. Otherwise, it logs the issue's payload in an S3 Bucket.
+`/save`: This endpoint currently accepts incoming payloads from an org-wide GitHub webhook, and evaluates whether or not the issue belongs to an Origami repository. If it does, the next step depends on the action that is being performed on the issue ('opened', 'edited', 'closed', etc). If an issue is 'labeled' and is specifically labelled with the UXD tag, this endpoint will reroute the issue to Slack (#ft-uxd), and will **not** save it anywhere. Otherwise, it logs the issue's payload in an S3 Bucket.
 
 `/report`: This endpoint posts to Slack once a day (currently 8h30 UTC). This is a scheduled event which parses the information it finds in the S3 bucket, generates a payload from that information, reports it to Slack (origami-internal) and then empties out the S3 bucket.
-
 
 ## Requirements
 
@@ -61,18 +60,12 @@ serverless offline start
 
 **Please be aware that the Slack webhook URLs are live**.
 
-If you want to work on these endpoints, or add more, please change all instances of `SLACK_WEBHOOK_URL_ORIGAMI_INTERNAL` and `SLACK_WEBHOOK_URL_UXD` to `SLACK_WEBHOOK_URL_TEST`. This way you won't be disturbing any channels, and can test and tweak to your heart's content.
+Make sure that all of the work you are doing happens in the dev stage. When you deploy in dev, the Slack webhook URLS will point at `SLACK_WEBHOOK_URL_TEST`, which points at #origami-webhooks-test. Please join this channel to see the payload deliveries.
 
-The most effective way of interacting with this serverless instance while it is running locally, is to [cURL](https://curl.haxx.se/)  directly into your localhost endpoints with the relevant headers and request body (this combination is used to pass the GitHub webhook verification), it looks something like this:
+In order to activate a GitHub webhook, feel free to open, edit, close and label issues in [`o-test-component`](https://github.com/Financial-Times/o-test-component/issues). This will deliver to the `/save` endpoint of your dev environment. You can find the data in a payload in the past webhook deliveries (Settings > Webhooks)
 
-```
-curl -X POST -H "Content-Type: application/json"  -d '{"action": "opened","issue":{"labels":[], "title":"New Issue", "html_url":"https://example.com"},"repository": {"name":"o-test-component"}, "sender": {"url":"https://api.github.com/users/XXXX"}}' http://localhost:3000/save
-```
 
-Keep in mind that any issue opened on an Origami component _will interact with the current, live, instance of serverless Webhooks_. The webhooks have been set org-wide, and exist on every repository that the FT owns, so remember to work with your local URL if you want to see the changes that you're making.
-
-If you need to see what a GitHub payload looks like, [`o-test-component`](https://github.com/Financial-Times/o-test-component/issues) houses all of the test issues and webhook details that have been recorded in the past (Settings > Webhooks)
-
+You can use [cURL](https://curl.haxx.se/) or [Postman](https://www.getpostman.com/) to interact with the `/report` endpoint and send payloads to Slack. You'll need to use some of the [environment variables](#configuration).
 
 ### Testing
 
@@ -91,6 +84,14 @@ npm run test-unit
 npm run test-integration
 ```
 
-If your tests are not passing, your work will not be deployed. (???)
-
 ## Deployment
+
+### Dev Environment
+Every push to a branch will deploy your work to the dev environment in AWS, after it has passed unit tests. Again, **this will be live**, but all of the payload will be directed at the test channel in Slack.
+
+### Prod Environment
+A successful CircleCI build on the master branch will deploy your work to production, after it has passed both unit and integration tests. 
+
+## License
+
+The Financial Times has published this software under the [MIT license][license].

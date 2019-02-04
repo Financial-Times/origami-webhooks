@@ -3,7 +3,7 @@
 const httpError = require('../lib/helpers').httpError;
 const listOrigamiRepos = require('../lib/list-origami-repos');
 const uploadToS3 = require('../lib/upload-to-s3');
-const	notifyUXD = require('../lib/notify-uxd');
+const notifyUXD = require('../lib/notify-uxd');
 const verifyGithubWebhook = require('../lib/verify-github-webhook.js');
 
 
