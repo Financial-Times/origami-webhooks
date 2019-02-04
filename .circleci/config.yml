@@ -47,19 +47,18 @@ references:
   deploy_service_staging: &deploy_service_staging
     run:
       command: |
+        SLACK_WEBHOOK_URL_ORIGAMI_INTERNAL=${SLACK_WEBHOOK_URL_TEST}
+        SLACK_WEBHOOK_URL_UXD=${SLACK_WEBHOOK_URL_TEST}
         $(npm bin)/serverless deploy --conceal --stage dev --region eu-west-1
-  # deploy_service_production: &deploy_service_production
-  #   run:
-  #     command: |
-  #       AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID_PROD} \
-  #       AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_PROD} \
-  #       AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_PROD} \
-  #       REPO_DATA_API_KEY=${REPO_DATA_API_KEY_PROD} \
-  #       REPO_DATA_API_SECRET=${REPO_DATA_API_SECRET_PROD} \
-  #       SENTRY_DSN=${SENTRY_DSN_PROD} \
-  #       SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN_PROD} \
-  #       SENTRY_PROJECT=${SENTRY_PROJECT_PROD} \
-  #       $(npm bin)/serverless deploy --conceal --stage prod --region eu-west-1
+  deploy_service_production: &deploy_service_production
+    run:
+      command: |
+        AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID_PROD} \
+        AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_PROD} \
+        AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_PROD} \
+        REPO_DATA_API_KEY=${REPO_DATA_API_KEY_PROD} \
+        REPO_DATA_API_SECRET=${REPO_DATA_API_SECRET_PROD} \
+        $(npm bin)/serverless deploy --conceal --stage prod --region eu-west-1
 jobs:
   install_dependencies:
     <<: *circle_node_base
@@ -70,6 +69,7 @@ jobs:
       - *npm_install
       - *save_npm_global_cache
       - *save_npm_local_cache
+
   lint:
     <<: *circle_node_base
     steps:
@@ -77,6 +77,7 @@ jobs:
       - *restore_npm_global_cache
       - *restore_npm_local_cache
       - *lint
+
   unit_test:
     <<: *circle_node_base
     steps:
@@ -84,6 +85,15 @@ jobs:
       - *restore_npm_global_cache
       - *restore_npm_local_cache
       - *unit_test
+
+  integration_test:
+    <<: *circle_node_base
+    steps:
+      - checkout
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *integration_test
+
   deploy_service_staging:
     <<: *circle_node_base
     steps:
@@ -91,6 +101,22 @@ jobs:
       - *restore_npm_global_cache
       - *restore_npm_local_cache
       - *deploy_service_staging
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - .dev-stack.yml
+
+  deploy_service_production:
+    <<: *circle_node_base
+    steps:
+      - checkout
+      - *restore_npm_global_cache
+      - *restore_npm_local_cache
+      - *deploy_service_production
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - .prod-stack.yml
 
 workflows:
   version: 2
@@ -110,3 +136,10 @@ workflows:
       - integration_test:
           requires:
             - deploy_service_staging
+      - deploy_service_production:
+          requires:
+            - integration_test
+          filters:
+            branches:
+              only:
+                - master

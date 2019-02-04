@@ -32,6 +32,7 @@
     "serverless": "^1.35.1",
     "serverless-offline": "^3.25.11",
     "serverless-secrets-plugin": "^0.1.0",
+    "serverless-stack-output": "^0.2.3",
     "sinon": "^6.2.0",
     "supertest": "^3.3.0"
   }
