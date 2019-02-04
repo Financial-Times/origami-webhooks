@@ -1,0 +1,4 @@
+SaveLambdaFunctionQualifiedArn: 'arn:aws:lambda:eu-west-1:488514118052:function:origami-webhooks-dev-save:64'
+ReportLambdaFunctionQualifiedArn: 'arn:aws:lambda:eu-west-1:488514118052:function:origami-webhooks-dev-report:44'
+ServiceEndpoint: 'https://u1ag2u65mg.execute-api.eu-west-1.amazonaws.com/dev'
+ServerlessDeploymentBucketName: origami-webhooks-artefacts-dev
