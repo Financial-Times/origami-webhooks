@@ -29,7 +29,7 @@ describe('slack', () => {
 
 	const mockPayload = {
 		mrkdwn: true,
-		text: '*Issue activity since Friday morning*\n*Closed*\n\n_test_:\n— <#| issue 3>\n\n*Opened*\n\n_test_:\n— <#| issue 1>\n— <#| issue 2>\n\n'
+		text: '*Issue activity since Friday morning*\n*Closed*\n\n_test_:\n\t— <#| issue 3>\n\n*Opened*\n\n_test_:\n\t— <#| issue 1>\n\t— <#| issue 2>\n\n'
 	};
 
 	afterEach(() => {
