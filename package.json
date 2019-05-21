@@ -15,10 +15,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@financial-times/origami-repo-data-client": "^1.4.1",
+    "@financial-times/origami-repo-data-client": "^1.5.0",
     "aws-sdk": "^2.313.0",
     "dotenv-safe": "^6.0.0",
-    "eslint": "^5.5.0",
+    "eslint": "^5.16.0",
     "node-fetch": "^2.2.0"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "nyc": "^13.0.1",
     "process": "^0.11.10",
     "proclaim": "^3.5.1",
-    "serverless": "^1.35.1",
+    "serverless": "^1.43.0",
     "serverless-offline": "^3.25.11",
     "serverless-secrets-plugin": "^0.1.0",
     "serverless-stack-output": "^0.2.3",
