@@ -2,10 +2,6 @@
 
 A serverless service for incoming and outgoing webhooks for Origami housekeeping
 
-## Code
-
-origami-webhooks
-
 ## Service Tier
 
 Bronze
