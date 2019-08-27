@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+    change-api: financial-times/change-api@0.24.0
 
 references:
   circle_node_base: &circle_node_base
@@ -134,12 +137,28 @@ workflows:
           requires:
             - lint
             - unit_test
+      - change-api/release-log:
+          requires:
+            - deploy_service_staging
+          systemCode: 'origami-webhooks'
+          environment: 'test'
+          slackChannels: 'origami-deploys'
       - integration_test:
           requires:
             - deploy_service_staging
       - deploy_service_production:
           requires:
             - integration_test
+          filters:
+            branches:
+              only:
+                - master
+      - change-api/release-log:
+          requires:
+            - deploy_service_production
+          systemCode: 'origami-webhooks'
+          environment: 'prod'
+          slackChannels: 'origami-deploys'
           filters:
             branches:
               only:
