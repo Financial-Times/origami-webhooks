@@ -15,25 +15,25 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@financial-times/origami-repo-data-client": "^1.5.0",
-    "aws-sdk": "^2.313.0",
-    "dotenv-safe": "^6.0.0",
-    "eslint": "^5.16.0",
-    "node-fetch": "^2.2.0"
+    "@financial-times/origami-repo-data-client": "^1.6.0",
+    "aws-sdk": "^2.576.0",
+    "dotenv-safe": "^8.2.0",
+    "eslint": "^6.6.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "execa": "^1.0.0",
-    "fetch-mock": "^7.0.0-alpha.6",
-    "mocha": "^5.2.0",
+    "execa": "^3.3.0",
+    "fetch-mock": "^8.0.0",
+    "mocha": "^6.2.2",
     "mockery": "^2.1.0",
-    "nyc": "^13.0.1",
+    "nyc": "^14.1.1",
     "process": "^0.11.10",
-    "proclaim": "^3.5.1",
-    "serverless": "^1.43.0",
-    "serverless-offline": "^3.25.11",
+    "proclaim": "^3.6.0",
+    "serverless": "^1.58.0",
+    "serverless-offline": "^5.12.0",
     "serverless-secrets-plugin": "^0.1.0",
     "serverless-stack-output": "^0.2.3",
-    "sinon": "^6.2.0",
-    "supertest": "^3.3.0"
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2"
   }
 }
