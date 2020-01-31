@@ -24,8 +24,6 @@ provider:
     SLACK_WEBHOOK_URL_UXD: ${self:custom.secret.SLACK_WEBHOOK_URL_UXD}
     SLACK_WEBHOOK_URL_TEST: ${self:custom.secret.SLACK_WEBHOOK_URL_TEST}
     BUCKET: ${self:custom.secret.BUCKET}
-    REPO_DATA_API_KEY: ${self:custom.secret.REPO_DATA_API_KEY}
-    REPO_DATA_API_SECRET: ${self:custom.secret.REPO_DATA_API_SECRET}
 
 custom:
   defaultStage: dev
