@@ -8,13 +8,13 @@ jobs:
       uses: docker://takanabe/github-actions-automate-projects:v0.0.1
       if: github.event_name == 'issues' && github.event.action == 'opened'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
         GITHUB_PROJECT_URL: https://github.com/orgs/Financial-Times/projects/83
         GITHUB_PROJECT_COLUMN_NAME: incoming
     - name: add-new-prs-to-repository-based-project-column
       uses: docker://takanabe/github-actions-automate-projects:v0.0.1
       if: github.event_name == 'pull_request' && github.event.action == 'opened'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
         GITHUB_PROJECT_URL: https://github.com/orgs/Financial-Times/projects/83
         GITHUB_PROJECT_COLUMN_NAME: incoming
