@@ -53,7 +53,7 @@ describe('slack', () => {
 		});
 
 		it('sends a payload', async () => {
-			const url = 'http://www.test.com';
+			const url = 'https://circleci.com';
 			fetchMock.post(url, 200);
 
 			const result = await slack.sendPayload(url, mockPayload);

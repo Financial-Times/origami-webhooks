@@ -41,9 +41,6 @@ Running this service locally requires a `.env` file with the following environme
 - `SLACK_WEBHOOK_URL_TEST`: The URL for the slack channel that the payload will be sent to, this should be used for testing and points at #origami-webhooks-test.
 - `SLACK_WEBHOOK_URL_ORIGAMI_INTERNAL`: The URL for the slack channel that the regular report will be sent to.
 - `SLACK_WEBHOOK_URL_UXD`: The URL for the slack channel that will be notified when an issue is labeled 'UXD'.
-- `REPO_DATA_API_KEY`: One half of the security credentials required to sign requests to the [Origami Repo Data Client](https://github.com/Financial-Times/origami-repo-data-client-node)
-- `REPO_DATA_API_SECRET`: One half of the security credentials required to sign requests to the [Origami Repo Data Client](https://github.com/Financial-Times/origami-repo-data-client-node)
-
 ### Commands
 
 Before running the service, we need to install it's dependencies:
@@ -90,7 +87,7 @@ npm run test-integration
 Every push to a branch will deploy your work to the dev environment in AWS, after it has passed unit tests. Again, **this will be live**, but all of the payload will be directed at the test channel in Slack.
 
 ### Prod Environment
-A successful CircleCI build on the master branch will deploy your work to production, after it has passed both unit and integration tests. 
+A successful CircleCI build on the master branch will deploy your work to production, after it has passed both unit and integration tests.
 
 ## License
 
