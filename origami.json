@@ -1,0 +1,16 @@
+{
+	"description": "A serverless service for incoming and outgoing webhooks for Origami housekeeping",
+	"origamiType": null,
+	"origamiVersion": 1,
+	"keywords": [
+		"webhook",
+		"github",
+		"slack"
+	],
+	"support": "https://github.com/Financial-Times/origami-webhooks/issues",
+	"supportStatus": "active",
+	"supportContact": {
+		"email": "origami.support@ft.com",
+		"slack": "financialtimes/origami-support"
+	}
+}
