@@ -8,7 +8,7 @@ Bronze
 
 ## Lifecycle Stage
 
-Production
+Decommissioned
 
 ## Primary URL
 
@@ -69,7 +69,7 @@ Manual
 
 ## Architecture
 
-This is a serverless service with two lambda functions responsible for collecting and reporting issues across origami component repositories. 
+This is a serverless service with two lambda functions responsible for collecting and reporting issues across origami component repositories.
 It uses GitHub webhooks and a Slack integration to deposit the payload into #ft-origami
 
 ## More Information
@@ -92,15 +92,15 @@ N/A
 
 ## Failover Details
 
-There is no specific failover for this service. 
+There is no specific failover for this service.
 
 ## Data Recovery Details
 
-As part of the service's functionality, data gets deleted after every payload is sent so there is no need for recovering any of it. 
+As part of the service's functionality, data gets deleted after every payload is sent so there is no need for recovering any of it.
 
 ## Release Details
 
-Webhooks are released after successful integration on circle. 
+Webhooks are released after successful integration on circle.
 This can be done manually: https://github.com/Financial-Times/origami-webhooks
 
 ## Key Management Details
