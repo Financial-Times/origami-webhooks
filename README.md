@@ -1,3 +1,5 @@
+**Decomissioned: See https://github.com/Financial-Times/origami-webhooks/pull/31#pullrequestreview-365864916**
+
 # origami-webhooks
 A [serverless](https://serverless.com) service that handles incoming and outgoing webhooks for Origami housekeeping.
 
